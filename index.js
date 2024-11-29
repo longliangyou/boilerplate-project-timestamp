@@ -21,13 +21,21 @@ app.get("/", function (req, res) {
 
 // your first API endpoint...
 app.get("/api/:time", function (req, res) {
+	if (time == "") {
+		let now = Date.now()
+		let date = new Date(now)
+		res.json({ unix: now, utc: date.toUTCString() })
+	}
 	let timestamp = Date.parse(req.params.time)
 	if (isNaN(timestamp)) {
 		timestamp = parseInt(req.params.time)
 	}
-
-	let date = new Date(timestamp)
-	res.json({ unix: timestamp, utc: date.toUTCString() });
+	if (isNan(timestamp)) {
+		res.json({ error: "Invalid Date" })
+	} else {
+		let date = new Date(timestamp)
+		res.json({ unix: timestamp, utc: date.toUTCString() });
+	}
 });
 
 
